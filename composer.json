@@ -2,7 +2,10 @@
   "name": "latevaweb/laravel-translatable",
   "description": "Laravel package to make Eloquent models attributes translatables",
   "keywords": [
-    "robots",
+    "translatable",
+    "localization",
+    "translations",
+    "eloquent",
     "laravel"
   ],
   "homepage": "https://github.com/latevaweb/laravel-translatable",
@@ -32,6 +35,10 @@
     "psr-4": {
       "LaTevaWeb\\Translatable\\Tests\\": "tests"
     }
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit",
+    "test-coverage": "phpunit --coverage-html coverage"
   },
   "config": {
     "sort-packages": true
