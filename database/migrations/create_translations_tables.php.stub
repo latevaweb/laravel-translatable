@@ -1,0 +1,54 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateTranslationsTables extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        $tableNames = config('translatable.table_names');
+
+        if (!Schema::hasTable($tableNames['translations'])) {
+            Schema::create($tableNames['translations'], function (Blueprint $table) {
+                $table->bigIncrements('id');
+                $table->string('field');
+                $table->string('locale');
+                $table->json('content')->nullable();
+            });
+        }
+
+        if (!Schema::hasTable($tableNames['translatables'])) {
+            Schema::create($tableNames['translatables'], function (Blueprint $table) use ($tableNames) {
+                $table->unsignedBigInteger('translation_id');
+                $table->foreign('translation_id')
+                    ->references('id')
+                    ->on($tableNames['translations'])
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
+
+                $table->unsignedInteger('translatable_id');
+                $table->string('translatable_type')->index();
+            });
+        }
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        $tableNames = config('translatable.table_names');
+
+        Schema::dropIfExists($tableNames['translatables']);
+        Schema::dropIfExists($tableNames['translations']);
+    }
+}

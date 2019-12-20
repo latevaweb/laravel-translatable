@@ -1,0 +1,48 @@
+{
+  "name": "latevaweb/laravel-translatable",
+  "description": "Laravel package to make Eloquent models attributes translatables",
+  "keywords": [
+    "robots",
+    "laravel"
+  ],
+  "homepage": "https://github.com/latevaweb/laravel-translatable",
+  "type": "laravel-package",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Marc Guinea",
+      "email": "marc@latevaweb.com",
+      "homepage": "https://www.latevaweb.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php" : "^7.2"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^8.4",
+    "orchestra/testbench": "^4.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "LaTevaWeb\\Translatable\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "LaTevaWeb\\Translatable\\Tests\\": "tests"
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "LaTevaWeb\\Translatable\\TranslatableServiceProvider"
+      ]
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
