@@ -5,7 +5,6 @@ namespace LaTevaWeb\Translatable\Traits;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
-use LaTevaWeb\Translatable\Events\TranslationHasBeenSet;
 use LaTevaWeb\Translatable\Exceptions\AttributeIsNotTranslatable;
 
 trait Translatable
@@ -14,8 +13,8 @@ trait Translatable
     {
         $translatables = [];
 
-        foreach($attributes as $field => $values) {
-            if( in_array($field, self::$translatable) ) {
+        foreach ($attributes as $field => $values) {
+            if (in_array($field, self::$translatable)) {
                 $translatables[$field] = $values;
                 unset($attributes[$field]);
             }
@@ -23,8 +22,8 @@ trait Translatable
 
         $model = static::query()->create($attributes);
 
-        foreach($translatables as $field => $values) {
-            foreach($values as $locale => $value) {
+        foreach ($translatables as $field => $values) {
+            foreach ($values as $locale => $value) {
                 $model->setTranslation($field, $locale, $value);
             }
         }
@@ -91,14 +90,14 @@ trait Translatable
                             ->where('locale', $locale)
                             ->first();
 
-        if(!empty($translation)) {
+        if (! empty($translation)) {
             $translation->content = $content;
             $translation->save();
         } else {
             $this->translations()->create([
                 'field' => $field,
                 'locale' => $locale,
-                'content' => $content
+                'content' => $content,
             ]);
         }
 
@@ -128,11 +127,12 @@ trait Translatable
         if (! is_null($fallbackLocale = Config::get('app.fallback_locale'))) {
             return $fallbackLocale;
         }
+
         return $locale;
     }
 
     /**
-     * Returns a collection with all locales [ locales ]
+     * Returns a collection with all locales [ locales ].
      *
      * @param string $field
      * @return Collection
@@ -143,7 +143,7 @@ trait Translatable
     }
 
     /**
-     * Returns a collection with [ locale => content ]
+     * Returns a collection with [ locale => content ].
      *
      * @param string|null $field
      * @return Collection
