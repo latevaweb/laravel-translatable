@@ -14,6 +14,7 @@ class TranslatableServiceProvider extends ServiceProvider
      * @var bool
      */
     protected $defer = false;
+
     /**
      * Bootstrap services.
      *
@@ -29,6 +30,7 @@ class TranslatableServiceProvider extends ServiceProvider
             __DIR__.'/../database/migrations/create_translations_tables.php.stub' => $this->getMigrationFileName($filesystem),
         ], 'migrations');
     }
+
     /**
      * Register the service provider.
      *
@@ -41,6 +43,7 @@ class TranslatableServiceProvider extends ServiceProvider
             'translatable'
         );
     }
+
     /**
      * Returns existing migration file if found, else uses the current timestamp.
      *
@@ -51,7 +54,7 @@ class TranslatableServiceProvider extends ServiceProvider
     {
         $timestamp = date('Y_m_d_His');
 
-        return Collection::make($this->app->databasePath() . DIRECTORY_SEPARATOR . 'migrations' . DIRECTORY_SEPARATOR)
+        return Collection::make($this->app->databasePath().DIRECTORY_SEPARATOR.'migrations'.DIRECTORY_SEPARATOR)
             ->flatMap(function ($path) use ($filesystem) {
                 return $filesystem->glob($path.'*_create_robots_tables.php');
             })

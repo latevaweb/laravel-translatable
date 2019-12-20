@@ -2,8 +2,6 @@
 
 namespace LaTevaWeb\Translatable\Tests;
 
-use LaTevaWeb\Translatable\Tests\Fake;
-
 class TranslatableTest extends TestCase
 {
     public function setUp(): void
@@ -24,14 +22,14 @@ class TranslatableTest extends TestCase
             'id' => 1,
             'field' => 'greeting',
             'locale' => 'es',
-            'content' => json_encode("Hola")
+            'content' => json_encode('Hola'),
         ]);
 
         $this->assertDatabaseHas('translations', [
             'id' => 2,
             'field' => 'greeting',
             'locale' => 'en',
-            'content' => json_encode("Hello")
+            'content' => json_encode('Hello'),
         ]);
     }
 
@@ -124,8 +122,8 @@ class TranslatableTest extends TestCase
         $fake = Fake::create([
            'greeting' => [
                'es' => 'Hola',
-               'en' => 'Hello'
-           ]
+               'en' => 'Hello',
+           ],
         ]);
 
         $response = $fake->getTranslation('greeting', 'en');
