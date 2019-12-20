@@ -20,12 +20,12 @@ $customer
    ->setTranslation('greeting', 'es', 'Hola')
    ->save();
    
-$newsItem->greeting; // Returns 'Hello' given that the current app locale is 'en'
-$newsItem->getTranslation('greeting', 'es'); // returns 'Hola'
+$customer->greeting; // Returns 'Hello' given that the current app locale is 'en'
+$customer->getTranslation('greeting', 'es'); // returns 'Hola'
 
 app()->setLocale('es');
 
-$newsItem->name; // Returns 'Hola'
+$customer->greeting; // Returns 'Hola'
 ```
 
 ## Installation
@@ -34,4 +34,27 @@ You can install the package via composer:
 
 ``` bash
 composer require latevaweb/laravel-translatable
+```
+
+## Making a model translatable
+
+The required steps to make a model translatable are:
+
+- First, you need to add the `LaTevaWeb\Translatable\Traits\Translatable`-trait.
+- Next, you should create a public static property `$translatable` which holds an array with all the names of attributes you wish to make translatable.
+- You don't have to create any field in the migration of your model.
+
+Here's an example of a prepared model:
+
+``` php
+use Illuminate\Database\Eloquent\Model;
+use LaTevaWeb\Translatable\Traits\Translatable;
+
+class NewsItem extends Model
+{
+    use Translatable;
+       
+    protected $fillable = ['greeting'];
+    public static $translatable = ['greeting'];
+}
 ```
