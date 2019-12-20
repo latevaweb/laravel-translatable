@@ -11,5 +11,5 @@ class Fake extends Model
 
     protected $fillable = ['greeting'];
     protected $guarded = ['id'];
-    public $translatable = ['greeting'];
+    public static $translatable = ['greeting'];
 }

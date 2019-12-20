@@ -10,6 +10,30 @@ use LaTevaWeb\Translatable\Exceptions\AttributeIsNotTranslatable;
 
 trait Translatable
 {
+    public static function create(array $attributes = [])
+    {
+        $translatables = [];
+
+        foreach($attributes as $field => $values) {
+            if( in_array($field, self::$translatable) ) {
+                $translatables[$field] = $values;
+                unset($attributes[$field]);
+            }
+        }
+
+        $model = static::query()->create($attributes);
+
+        foreach($translatables as $field => $values) {
+            foreach($values as $locale => $value) {
+                $model->setTranslation($field, $locale, $value);
+            }
+        }
+
+        $model->save();
+
+        return $model;
+    }
+
     public function getAttributeValue($field)
     {
         if (! $this->isTranslatableAttribute($field)) {
@@ -40,7 +64,7 @@ trait Translatable
 
     public function getTranslatableAttributes(): array
     {
-        return is_array($this->translatable) ? $this->translatable : [];
+        return is_array(self::$translatable) ? self::$translatable : [];
     }
 
     public function getTranslation(string $field, string $locale, bool $useFallbackLocale = true): ?string

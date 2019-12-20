@@ -2,6 +2,8 @@
 
 namespace LaTevaWeb\Translatable\Tests;
 
+use LaTevaWeb\Translatable\Tests\Fake;
+
 class TranslatableTest extends TestCase
 {
     public function setUp(): void
@@ -117,6 +119,23 @@ class TranslatableTest extends TestCase
         $this->assertEquals('Hola', $response);
     }
 
+    public function testCreateFactoryEloquent()
+    {
+        $fake = Fake::create([
+           'greeting' => [
+               'es' => 'Hola',
+               'en' => 'Hello'
+           ]
+        ]);
+
+        $response = $fake->getTranslation('greeting', 'en');
+        $this->assertEquals('Hello', $response);
+
+        $response = $fake->getTranslation('greeting', 'es');
+        $this->assertEquals('Hola', $response);
+    }
+
+    /*
     public function testGetTranslatableFieldUsingAccessor()
     {
         $this->markTestIncomplete('TODO');
@@ -129,4 +148,5 @@ class TranslatableTest extends TestCase
         $this->fake->greeting = 'Hola';
         $this->assertEquals('Hola', $this->fake->greeting);
     }
+    //*/
 }
