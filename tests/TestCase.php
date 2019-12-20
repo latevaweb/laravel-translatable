@@ -12,20 +12,27 @@ abstract class TestCase extends Orchestra
     public function setUp(): void
     {
         parent::setUp();
-        $this->setUpDatabase();
+        $this->setUpDatabase($this->app);
     }
 
     /**
+     * @param \Illuminate\Foundation\Application $app
+     *
      * @return array
      */
-    protected function getPackageProviders()
+    protected function getPackageProviders($app)
     {
         return [
             \LaTevaWeb\Translatable\TranslatableServiceProvider::class,
         ];
     }
 
-    protected function setUpDatabase()
+    /**
+     * Set up the database.
+     *
+     * @param \Illuminate\Foundation\Application $app
+     */
+    protected function setUpDatabase($app)
     {
         include_once __DIR__.'/../database/migrations/create_translations_tables.php.stub';
         (new \CreateTranslationsTables())->up();
