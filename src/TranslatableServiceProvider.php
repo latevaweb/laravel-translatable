@@ -23,7 +23,7 @@ class TranslatableServiceProvider extends ServiceProvider
     public function boot(Filesystem $filesystem)
     {
         $this->publishes([
-            __DIR__.'/../config/translatable.php' => config_path('latevaweb-translatable.php'),
+            __DIR__.'/../config/latevaweb-translatable.php' => config_path('latevaweb-translatable.php'),
         ], 'config');
 
         $this->publishes([
@@ -39,8 +39,8 @@ class TranslatableServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../config/translatable.php',
-            'translatable'
+            __DIR__.'/../config/latevaweb-translatable.php',
+            'latevaweb-translatable'
         );
     }
 
