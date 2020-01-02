@@ -42,7 +42,7 @@ The required steps to make a model translatable are:
 
 - First, you need to add the `LaTevaWeb\Translatable\Traits\Translatable`-trait.
 - Next, you should create a public static property `$translatable` which holds an array with all the names of attributes you wish to make translatable.
-- You don't have to create any field in the migration of your model.
+- You have to create a field in the migration of your model type `string` and `nullable`.
 
 Here's an example of a prepared model:
 
