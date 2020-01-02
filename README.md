@@ -35,6 +35,10 @@ You can install the package via composer:
 ``` bash
 composer require latevaweb/laravel-translatable
 ```
+If you want to change the default model or the default tables names, you could publish the config file:
+``` bash
+php artisan vendor:publish --provider="LaTevaWeb\Translatable\TranslatableServiceProvider" --tag=config --force
+```
 
 ## Making a model translatable
 

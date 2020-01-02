@@ -23,7 +23,7 @@ class TranslatableServiceProvider extends ServiceProvider
     public function boot(Filesystem $filesystem)
     {
         $this->publishes([
-            __DIR__.'/../config/translatable.php' => config_path('translatable.php'),
+            __DIR__.'/../config/latevaweb-translatable.php' => config_path('latevaweb-translatable.php'),
         ], 'config');
 
         $this->publishes([
@@ -39,8 +39,8 @@ class TranslatableServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../config/translatable.php',
-            'translatable'
+            __DIR__.'/../config/latevaweb-translatable.php',
+            'latevaweb-translatable'
         );
     }
 
@@ -56,9 +56,9 @@ class TranslatableServiceProvider extends ServiceProvider
 
         return Collection::make($this->app->databasePath().DIRECTORY_SEPARATOR.'migrations'.DIRECTORY_SEPARATOR)
             ->flatMap(function ($path) use ($filesystem) {
-                return $filesystem->glob($path.'*_create_robots_tables.php');
+                return $filesystem->glob($path.'*_create_translatable_tables.php');
             })
-            ->push($this->app->databasePath()."/migrations/{$timestamp}_create_robots_tables.php")
+            ->push($this->app->databasePath()."/migrations/{$timestamp}_create_translatable_tables.php")
             ->first();
     }
 }
