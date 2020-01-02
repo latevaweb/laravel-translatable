@@ -13,7 +13,7 @@ class CreateTranslationsTables extends Migration
      */
     public function up()
     {
-        $tableNames = config('translatable.table_names');
+        $tableNames = config('latevaweb-translatable.table_names');
 
         if (!Schema::hasTable($tableNames['translations'])) {
             Schema::create($tableNames['translations'], function (Blueprint $table) {
@@ -46,7 +46,7 @@ class CreateTranslationsTables extends Migration
      */
     public function down()
     {
-        $tableNames = config('translatable.table_names');
+        $tableNames = config('latevaweb-translatable.table_names');
 
         Schema::dropIfExists($tableNames['translatables']);
         Schema::dropIfExists($tableNames['translations']);

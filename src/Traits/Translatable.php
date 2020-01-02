@@ -113,7 +113,7 @@ trait Translatable
 
     public function translations(): MorphToMany
     {
-        return $this->morphToMany(config('translatable.models.translation'), 'translatable');
+        return $this->morphToMany(config('latevaweb-translatable.models.translation'), 'translatable');
     }
 
     protected function normalizeLocale(string $field, string $locale, bool $useFallbackLocale) : string

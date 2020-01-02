@@ -56,9 +56,9 @@ class TranslatableServiceProvider extends ServiceProvider
 
         return Collection::make($this->app->databasePath().DIRECTORY_SEPARATOR.'migrations'.DIRECTORY_SEPARATOR)
             ->flatMap(function ($path) use ($filesystem) {
-                return $filesystem->glob($path.'*_create_robots_tables.php');
+                return $filesystem->glob($path.'*_create_translatable_tables.php');
             })
-            ->push($this->app->databasePath()."/migrations/{$timestamp}_create_robots_tables.php")
+            ->push($this->app->databasePath()."/migrations/{$timestamp}_create_translatable_tables.php")
             ->first();
     }
 }

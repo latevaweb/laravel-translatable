@@ -20,6 +20,6 @@ class Translation extends Model
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->setTable(config('translatable.table_names.translations'));
+        $this->setTable(config('latevaweb-translatable.table_names.translations'));
     }
 }
