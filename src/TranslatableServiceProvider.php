@@ -23,7 +23,7 @@ class TranslatableServiceProvider extends ServiceProvider
     public function boot(Filesystem $filesystem)
     {
         $this->publishes([
-            __DIR__.'/../config/translatable.php' => config_path('translatable.php'),
+            __DIR__.'/../config/translatable.php' => config_path('latevaweb-translatable.php'),
         ], 'config');
 
         $this->publishes([
