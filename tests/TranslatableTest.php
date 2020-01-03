@@ -122,10 +122,10 @@ class TranslatableTest extends TestCase
     public function testCreateFactoryEloquent()
     {
         $fake = Fake::create([
-           'greeting' => [
-               'es' => 'Hola',
-               'en' => 'Hello',
-           ],
+            'greeting' => [
+                'es' => 'Hola',
+                'en' => 'Hello',
+            ],
         ]);
 
         $response = $fake->getTranslation('greeting', 'en');

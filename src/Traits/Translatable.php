@@ -51,12 +51,12 @@ trait Translatable
         return $this->setTranslation($field, $this->getLocale(), $value);
     }
 
-    public function isTranslatableAttribute(string $field) : bool
+    public function isTranslatableAttribute(string $field): bool
     {
         return in_array($field, $this->getTranslatableAttributes());
     }
 
-    protected function getLocale() : string
+    protected function getLocale(): string
     {
         return Config::get('app.locale');
     }
@@ -121,7 +121,7 @@ trait Translatable
             'translation_id');
     }
 
-    protected function normalizeLocale(string $field, string $locale, bool $useFallbackLocale) : string
+    protected function normalizeLocale(string $field, string $locale, bool $useFallbackLocale): string
     {
         if (in_array($locale, $this->getTranslatedLocales($field)->all())) {
             return $locale;
