@@ -135,6 +135,25 @@ class TranslatableTest extends TestCase
         $this->assertEquals('Hola', $response);
     }
 
+    public function testCreateWithNewEloquent()
+    {
+        $fake = new Fake;
+
+        $fake
+            ->setTranslation('greeting', 'en', 'Hello')
+            ->save();
+
+        $response = $fake->getTranslation('greeting', 'en');
+        $this->assertEquals('Hello', $response);
+
+        $fake
+            ->setTranslation('greeting', 'es', 'Hola')
+            ->save();
+
+        $response = $fake->getTranslation('greeting', 'es');
+        $this->assertEquals('Hola', $response);
+    }
+
     /* TODO: Not working
     public function testGetTranslatableFieldUsingAccessor()
     {
