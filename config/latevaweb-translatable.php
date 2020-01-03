@@ -6,7 +6,11 @@ return [
     ],
 
     'table_names' => [
-        'translatables' => 'translatables',
-        'translations' => 'translations',
+        'translatables' => 'latevaweb_translatables',
+        'translations' => 'latevaweb_translations',
     ],
+
+    'column_names' => [
+        'model_morph_key' => 'model_id'
+    ]
 ];

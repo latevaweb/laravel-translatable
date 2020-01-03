@@ -86,9 +86,9 @@ trait Translatable
         $this->guardAgainstNonTranslatableAttribute($field);
 
         $translation = $this->translations()
-                            ->where('field', $field)
-                            ->where('locale', $locale)
-                            ->first();
+            ->where('field', $field)
+            ->where('locale', $locale)
+            ->first();
 
         if (! empty($translation)) {
             $translation->content = $content;
@@ -113,7 +113,12 @@ trait Translatable
 
     public function translations(): MorphToMany
     {
-        return $this->morphToMany(config('latevaweb-translatable.models.translation'), 'translatable');
+        return $this->morphToMany(
+            config('latevaweb-translatable.models.translation'),
+            'translatable',
+            config('latevaweb-translatable.table_names.translatables'),
+            config('latevaweb-translatable.column_names.model_morph_key'),
+            'translation_id');
     }
 
     protected function normalizeLocale(string $field, string $locale, bool $useFallbackLocale) : string
@@ -151,10 +156,10 @@ trait Translatable
     public function getTranslations(string $field = null): Collection
     {
         return $this->translations()
-                    ->where('field', $field)
-                    ->select('locale', 'content')
-                    ->get()
-                    ->keyBy('locale')
-                    ->pluck('content', 'locale');
+            ->where('field', $field)
+            ->select('locale', 'content')
+            ->get()
+            ->keyBy('locale')
+            ->pluck('content', 'locale');
     }
 }
