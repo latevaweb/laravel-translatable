@@ -43,7 +43,7 @@ php artisan vendor:publish --provider="LaTevaWeb\Translatable\TranslatableServic
 
 You must publish the migration file to create polymorphic and main translations tables:
 ``` bash
-php artisan vendor:publish --provider="LaTevaWeb\Translatable\TranslatableServiceProvider" --tag=migration --force
+php artisan vendor:publish --provider="LaTevaWeb\Translatable\TranslatableServiceProvider" --tag=migrations --force
 ```
 
 ## Making a model translatable
