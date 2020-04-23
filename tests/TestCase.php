@@ -40,6 +40,7 @@ abstract class TestCase extends Orchestra
         // Fake model migration
         $this->app['db']->connection()->getSchemaBuilder()->create('fakes', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('greeting')->nullable();
             $table->timestamps();
         });
 

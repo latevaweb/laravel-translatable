@@ -13,19 +13,21 @@ class TranslatableTest extends TestCase
 
     public function testSetTranslationString()
     {
+        $tableNames = config('latevaweb-translatable.table_names');
+
         $this->fake
             ->setTranslation('greeting', 'es', 'Hola')
             ->setTranslation('greeting', 'en', 'Hello')
             ->save();
 
-        $this->assertDatabaseHas('translations', [
+        $this->assertDatabaseHas($tableNames['translations'], [
             'id' => 1,
             'field' => 'greeting',
             'locale' => 'es',
             'content' => json_encode('Hola'),
         ]);
 
-        $this->assertDatabaseHas('translations', [
+        $this->assertDatabaseHas($tableNames['translations'], [
             'id' => 2,
             'field' => 'greeting',
             'locale' => 'en',
@@ -120,10 +122,10 @@ class TranslatableTest extends TestCase
     public function testCreateFactoryEloquent()
     {
         $fake = Fake::create([
-           'greeting' => [
-               'es' => 'Hola',
-               'en' => 'Hello',
-           ],
+            'greeting' => [
+                'es' => 'Hola',
+                'en' => 'Hello',
+            ],
         ]);
 
         $response = $fake->getTranslation('greeting', 'en');
@@ -133,17 +135,36 @@ class TranslatableTest extends TestCase
         $this->assertEquals('Hola', $response);
     }
 
-    /*
+    public function testCreateWithNewEloquent()
+    {
+        $fake = new Fake;
+
+        $fake
+            ->setTranslation('greeting', 'en', 'Hello')
+            ->save();
+
+        $response = $fake->getTranslation('greeting', 'en');
+        $this->assertEquals('Hello', $response);
+
+        $fake
+            ->setTranslation('greeting', 'es', 'Hola')
+            ->save();
+
+        $response = $fake->getTranslation('greeting', 'es');
+        $this->assertEquals('Hola', $response);
+    }
+
+    /* TODO: Not working
     public function testGetTranslatableFieldUsingAccessor()
     {
-        $this->markTestIncomplete('TODO');
-
         app()->setLocale('en');
         $this->fake->greeting = 'Hello';
+        $this->fake->save();
         $this->assertEquals('Hello', $this->fake->greeting);
 
         app()->setLocale('es');
         $this->fake->greeting = 'Hola';
+        $this->fake->save();
         $this->assertEquals('Hola', $this->fake->greeting);
     }
     //*/
