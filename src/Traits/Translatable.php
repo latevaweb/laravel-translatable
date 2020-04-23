@@ -70,9 +70,9 @@ trait Translatable
 
     public function getTranslation(string $field, string $locale, bool $useFallbackLocale = true): ?string
     {
-        $locale = $this->normalizeLocale($field, $locale, $useFallbackLocale);
-
         $translations = $this->getTranslations($field)->all();
+
+        $locale = $this->normalizeLocale(array_keys($translations), $field, $locale, $useFallbackLocale);
 
         $translation = $translations[$locale] ?? '';
 
@@ -128,9 +128,9 @@ trait Translatable
             'translation_id');
     }
 
-    protected function normalizeLocale(string $field, string $locale, bool $useFallbackLocale): string
+    protected function normalizeLocale($locales, string $field, string $locale, bool $useFallbackLocale): string
     {
-        if (in_array($locale, $this->getTranslatedLocales($field)->all())) {
+        if (in_array($locale, $locales)) {
             return $locale;
         }
         if (! $useFallbackLocale) {
