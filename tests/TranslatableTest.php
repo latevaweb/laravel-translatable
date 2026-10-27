@@ -154,6 +154,51 @@ class TranslatableTest extends TestCase
         $this->assertEquals('Hola', $response);
     }
 
+    public function testDeleteModelDeletesItsTranslations()
+    {
+        $tableNames = config('latevaweb-translatable.table_names');
+
+        $this->fake
+            ->setTranslation('greeting', 'es', 'Hola')
+            ->setTranslation('greeting', 'en', 'Hello')
+            ->save();
+
+        $other = new Fake;
+        $other
+            ->setTranslation('greeting', 'en', 'Bye')
+            ->save();
+
+        $this->fake->delete();
+
+        $this->assertDatabaseMissing($tableNames['translations'], ['content' => json_encode('Hola')]);
+        $this->assertDatabaseMissing($tableNames['translations'], ['content' => json_encode('Hello')]);
+        $this->assertDatabaseMissing($tableNames['translatables'], ['model_id' => $this->fake->id]);
+
+        // Other models translations are kept
+        $this->assertDatabaseHas($tableNames['translations'], ['content' => json_encode('Bye')]);
+        $this->assertDatabaseHas($tableNames['translatables'], ['model_id' => $other->id]);
+    }
+
+    public function testSoftDeleteKeepsTranslationsAndForceDeleteDeletesThem()
+    {
+        $tableNames = config('latevaweb-translatable.table_names');
+
+        $fake = new FakeSoftDeletes;
+        $fake
+            ->setTranslation('greeting', 'en', 'Hello')
+            ->save();
+
+        $fake->delete();
+
+        $this->assertDatabaseHas($tableNames['translations'], ['content' => json_encode('Hello')]);
+        $this->assertDatabaseHas($tableNames['translatables'], ['model_id' => $fake->id]);
+
+        $fake->forceDelete();
+
+        $this->assertDatabaseMissing($tableNames['translations'], ['content' => json_encode('Hello')]);
+        $this->assertDatabaseMissing($tableNames['translatables'], ['model_id' => $fake->id]);
+    }
+
     /* TODO: Not working
     public function testGetTranslatableFieldUsingAccessor()
     {
