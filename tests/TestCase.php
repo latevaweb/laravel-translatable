@@ -44,6 +44,13 @@ abstract class TestCase extends Orchestra
             $table->timestamps();
         });
 
+        $this->app['db']->connection()->getSchemaBuilder()->create('fake_soft_deletes', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('greeting')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
         // Create fake model to test
         $this->fake = new Fake;
         $this->fake->save();

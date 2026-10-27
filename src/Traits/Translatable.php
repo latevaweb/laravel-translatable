@@ -11,6 +11,23 @@ trait Translatable
 {
     protected $tempTranslations = [];
 
+    /**
+     * Delete model translations when the model is deleted, so they don't stay orphaned.
+     * Soft deleted models keep them (they can be restored): only a force delete removes them.
+     *
+     * Note: mass deletes (Model::where(...)->delete()) don't fire model events.
+     */
+    public static function bootTranslatable()
+    {
+        static::deleted(function ($model) {
+            if (method_exists($model, 'isForceDeleting') && ! $model->isForceDeleting()) {
+                return;
+            }
+
+            $model->deleteTranslations();
+        });
+    }
+
     public static function create(array $attributes = [])
     {
         $translatables = [];
@@ -126,6 +143,19 @@ trait Translatable
             config('latevaweb-translatable.table_names.translatables'),
             config('latevaweb-translatable.column_names.model_morph_key'),
             'translation_id');
+    }
+
+    /**
+     * Delete all model translations and their pivot rows.
+     */
+    public function deleteTranslations(): void
+    {
+        $translationModel = config('latevaweb-translatable.models.translation');
+        $translationIds = $this->translations()->pluck((new $translationModel)->getQualifiedKeyName());
+
+        // Detach explicitly instead of relying on the ON DELETE CASCADE (disabled by default in SQLite)
+        $this->translations()->detach();
+        $translationModel::whereIn('id', $translationIds)->delete();
     }
 
     protected function normalizeLocale($locales, string $field, string $locale, bool $useFallbackLocale): string
